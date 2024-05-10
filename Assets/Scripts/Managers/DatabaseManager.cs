@@ -21,7 +21,7 @@ public class DatabaseManager : MonoBehaviour
 
     private void Update()
     {
-        if (TimingManager.gameHourTimer < 0) 
+        if (TimingManager.instance.gameHourTimer < 0)
         {
             Pet pet = new Pet(needsController.lastTimeFed.ToString(), needsController.lastTimeHappy.ToString(), needsController.lastTimeEnergized.ToString(), needsController.food, needsController.happiness, needsController.energy);
             SavePet(pet);
@@ -34,7 +34,6 @@ public class DatabaseManager : MonoBehaviour
         {
             needsController.Initialize(pet.food, pet.happyness, pet.energy, 10, 10, 10, DateTime.Parse(pet.lastTimeFed), DateTime.Parse(pet.lastTimeHappy), DateTime.Parse(pet.lastTimeEnergized));
         }
-      
     }
 
     public void SavePet(Pet pet)

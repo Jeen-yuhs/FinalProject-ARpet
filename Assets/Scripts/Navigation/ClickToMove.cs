@@ -18,8 +18,7 @@ public class ClickToMove : MonoBehaviour
 
     private WaitForSeconds half = new WaitForSeconds(.5f);
     
-    private bool isPlaced = false;
-    // Update is called once per frame
+    private bool isPlaced = false;   
 
     private void Start()
     {
@@ -93,14 +92,13 @@ public class ClickToMove : MonoBehaviour
             
             if (wayPoints.Count == 0) yield return half;
 
-            if (agent.path.PathStatus == Path.Status.PathComplete &&
-                currentWayPointIndex+1 <= wayPoints.Count)
+            if (agent.path.PathStatus == Path.Status.PathComplete && currentWayPointIndex+1 <= wayPoints.Count)
             {
                 Debug.Log("agentState => Pathcomlete");
                 agent.SetDestination(wayPoints[currentWayPointIndex]);
                 currentWayPointIndex++;
-            } else if (agent.State == LightshipNavMeshAgent.AgentNavigationState.Idle 
-                       && wayPoints.Count > currentWayPointIndex)
+            }   
+            else if (agent.State == LightshipNavMeshAgent.AgentNavigationState.Idle && wayPoints.Count > currentWayPointIndex)
             {
                 Debug.Log("agentState => Idle");
                 agent.SetDestination(wayPoints[currentWayPointIndex]);

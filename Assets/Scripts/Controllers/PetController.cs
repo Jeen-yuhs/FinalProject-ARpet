@@ -66,8 +66,7 @@ public class PetController : MonoBehaviour
                 ChangeToState("setIdle");
                 AnimationState = PetAnimationState.isIdle;
 
-            }
-            
+            }            
             yield return quartSec;
         }
         yield return null;
@@ -80,7 +79,7 @@ public class PetController : MonoBehaviour
         {
             if (param.type == AnimatorControllerParameterType.Bool)
             {
-                petAnimation.SetBool(param.name, param.name == setToState);
+                petAnimation.SetBool(param.name, param.name == setToState ? true : false);
             }
         }
     }

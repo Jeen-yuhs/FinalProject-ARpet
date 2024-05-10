@@ -71,11 +71,8 @@ public class PlacementOnMesh_Character : MonoBehaviour
         RaycastHit hit;
         
         if (Physics.Raycast(ray ,out hit))
-        {
-            
-            placedObjects.Add(
-                Instantiate(placementObject, hit.point, Quaternion.FromToRotation(transform.up, hit.normal))
-                );
+        {            
+            placedObjects.Add(Instantiate(placementObject, hit.point, Quaternion.FromToRotation(transform.up, hit.normal)));
             isPlaced = true;
             characterPlaced?.Invoke();
         }

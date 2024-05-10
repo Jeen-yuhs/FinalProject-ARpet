@@ -45,11 +45,11 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6962607347659301531}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
+  m_Avatar: {fileID: 9000000, guid: 8f37502d2d25a5d478e28dece44a257d, type: 3}
   m_Controller: {fileID: 9100000, guid: 3ec879644da82624381e3bfd1742791d, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -102,9 +102,9 @@ MonoBehaviour:
   food: 100
   happiness: 100
   energy: 100
-  foodTickRate: 10
-  happinessTickRate: 10
-  energyTickRate: 10
+  foodTickRate: 5
+  happinessTickRate: 2
+  energyTickRate: 1
 --- !u!1 &7675110521215195063
 GameObject:
   m_ObjectHideFlags: 0

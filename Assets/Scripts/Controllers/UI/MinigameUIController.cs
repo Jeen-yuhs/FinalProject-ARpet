@@ -9,8 +9,10 @@ using UnityEngine.UI;
 public class MinigameUIController : MonoBehaviour
 {
     public static MinigameUIController instance;
+    public GameObject minigamePrefab;
     public TMP_Text scoreText, timerText;
     public MinigameEndPanelController minigameEndUI;
+    public MinigamePetController minigamePetController;
     public bool victory;
     private int score;
     private float timeRemaining;
@@ -22,6 +24,11 @@ public class MinigameUIController : MonoBehaviour
             instance = this;
         }
         else Debug.LogWarning("More than one MinigameUIController in the Scene");
+    }
+    private void OnEnable()
+    {
+        GameObject minigame = Instantiate(minigamePrefab);
+        minigame.GetComponent<BaseMinigameController>().Initialize(minigamePetController.transform);
     }
 
     public void UpdateScore(int score) 

@@ -6,9 +6,10 @@ using UnityEngine;
 public class BaseMinigameController : MonoBehaviour
 {
     protected int score;
-    protected float timer;
-
-    protected virtual void Awake() 
+    public float timer;
+    public Transform[] startingPositions; // do I neede it?
+  
+    protected void Start() 
     {
         if (timer == 0) 
         {
@@ -16,15 +17,22 @@ public class BaseMinigameController : MonoBehaviour
         }
     }
 
+    public void Initialize(Transform pet)  // do I neede it?
+    {
+        transform.position = Vector3.zero;
+        pet.position = startingPositions[Random.Range(0, startingPositions.Length)].position;
+    }
     protected virtual void ChangeScore(int amount) 
     {
         score += amount;
+        if (MinigameUIController.instance == null) return;
         MinigameUIController.instance.UpdateScore(score);
     }
 
     protected virtual void ChangeTimer(float change) 
     {
         timer += change;
+        if (MinigameUIController.instance == null) return;
         MinigameUIController.instance.UpdateTimer(timer);
     }
 
@@ -40,6 +48,7 @@ public class BaseMinigameController : MonoBehaviour
 
     protected virtual void GoalReached() 
     {
+        if (MinigameUIController.instance == null) return;
         MinigameUIController.instance.FinishMiniGame(score, timer);
         Destroy(gameObject);
     }

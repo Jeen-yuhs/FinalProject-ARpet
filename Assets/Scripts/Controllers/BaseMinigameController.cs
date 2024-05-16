@@ -6,8 +6,7 @@ using UnityEngine;
 public class BaseMinigameController : MonoBehaviour
 {
     protected int score;
-    public float timer;
-    public Transform[] startingPositions; // do I neede it?
+    public float timer;   
   
     protected void Start() 
     {
@@ -16,19 +15,7 @@ public class BaseMinigameController : MonoBehaviour
             ChangeTimer(30);
         }
     }
-
-    public void Initialize(Transform pet)  // do I neede it?
-    {
-        transform.position = Vector3.zero;
-        pet.position = startingPositions[Random.Range(0, startingPositions.Length)].position;
-    }
-    protected virtual void ChangeScore(int amount) 
-    {
-        score += amount;
-        if (MinigameUIController.instance == null) return;
-        MinigameUIController.instance.UpdateScore(score);
-    }
-
+     
     protected virtual void ChangeTimer(float change) 
     {
         timer += change;

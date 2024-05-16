@@ -8,11 +8,44 @@ public class NeedsController : MonoBehaviour
     public int food, happiness, energy;
     public int foodTickRate, happinessTickRate, energyTickRate;
     public DateTime lastTimeFed, lastTimeHappy, lastTimeEnergized;
-   
+
+    //private bool _isProcessesStopped;
+    /*public MinigameUIController MinigameUIController 
+    {
+        get => _minigameUIController;
+        set
+        {
+            _minigameUIController = value;
+
+            _minigameUIController.MiniGameStarted += StopProcessingNeeds;
+            _minigameUIController.MiniGameEnded += StartProcessingNeeds;
+        }
+    }
+
+    private MinigameUIController _minigameUIController;*/
+
+
     private void Awake()
     {
         Initialize(100, 100, 100, 5, 2, 1);
     }
+
+    /*private void OnDestroy()
+    {
+        _minigameUIController.MiniGameStarted -= StopProcessingNeeds;
+        _minigameUIController.MiniGameEnded -= StartProcessingNeeds;
+    }
+
+    private void StartProcessingNeeds()
+    {
+        _isProcessesStopped = false;
+    }
+
+    private void StopProcessingNeeds()
+    {
+        Debug.Log("ffffffffffffffffffffffff");
+        _isProcessesStopped = true;
+    }*/
 
     public void Initialize(int food, int happiness, int energy, int foodTickRate, int happinessTickRate, int energyTickRate)
     {
@@ -26,9 +59,8 @@ public class NeedsController : MonoBehaviour
         
         this.foodTickRate = foodTickRate;
         this.happinessTickRate = happinessTickRate;
-        this.energyTickRate = energyTickRate;
+        this.energyTickRate = energyTickRate;       
         
-        PetUIController.instance.UpdateImages(food, happiness, energy);
     }
 
     public void Initialize(int food, int happiness, int energy, int foodTickRate, int happinessTickRate, int energyTickRate, DateTime lastTimeFed, DateTime lastTimeHappy, DateTime lastTimeEnergized) 
@@ -47,20 +79,24 @@ public class NeedsController : MonoBehaviour
         
         if (this.food < 0) this.food = 0;
         if (this.happiness < 0) this.happiness = 0;
-        if (this.energy < 0) this.energy = 0; 
+        if (this.energy < 0) this.energy = 0;       
         
-        PetUIController.instance.UpdateImages(this.food, this.happiness, this.energy);
     }
 
     private void Update()
     {
+        /*if (_isProcessesStopped)
+        {
+            return;
+        }*/
+
         if(TimingManager.instance.gameHourTimer < 0) 
         {
             ChangeFood(-foodTickRate);
-            ChangeHappiness(-foodTickRate);
-            ChangeEnergy(-foodTickRate);
-            PetUIController.instance.UpdateImages(food, happiness, energy);
+            ChangeHappiness(-happinessTickRate);
+            ChangeEnergy(-energyTickRate);            
         }
+        PetUIController.instance.UpdateImages(food, happiness, energy);
     }
 
     public void ChangeFood(int amount)

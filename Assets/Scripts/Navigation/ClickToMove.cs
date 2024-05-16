@@ -8,25 +8,24 @@ using UnityEngine.EventSystems;
 public class ClickToMove : MonoBehaviour
 {
     [SerializeField] private Camera mainCam;
-    private LightshipNavMeshAgent agent; 
-    
+    private LightshipNavMeshAgent agent;
+
     [SerializeField]
     private List<Vector3> wayPoints = new();
-    
+
     [SerializeField] private int currentWayPointIndex = 0;
-    [SerializeField] private Vector3 currentWayPoint; 
+    [SerializeField] private Vector3 currentWayPoint;
 
     private WaitForSeconds half = new WaitForSeconds(.5f);
-    
-    private bool isPlaced = false;   
+
+    private bool isPlaced = false;
 
     private void Start()
     {
-        PlacementOnMesh_Character.characterPlaced += StartAfterPlacement;
+        PlacementOnMesh_Character.CharacterPlaced += StartAfterPlacement;
     }
 
-
-    private void StartAfterPlacement()
+    private void StartAfterPlacement(NeedsController needs, PetController petController)
     {
         agent = GameObject.FindObjectOfType<LightshipNavMeshAgent>();
         isPlaced = true;
@@ -87,17 +86,17 @@ public class ClickToMove : MonoBehaviour
     {
         while (true)
         {
-            Debug.Log("AgentState is " + agent.State); 
+            Debug.Log("AgentState is " + agent.State);
             Debug.Log("AgentPathStatus is " + agent.path.PathStatus);
-            
+
             if (wayPoints.Count == 0) yield return half;
 
-            if (agent.path.PathStatus == Path.Status.PathComplete && currentWayPointIndex+1 <= wayPoints.Count)
+            if (agent.path.PathStatus == Path.Status.PathComplete && currentWayPointIndex + 1 <= wayPoints.Count)
             {
                 Debug.Log("agentState => Pathcomlete");
                 agent.SetDestination(wayPoints[currentWayPointIndex]);
                 currentWayPointIndex++;
-            }   
+            }
             else if (agent.State == LightshipNavMeshAgent.AgentNavigationState.Idle && wayPoints.Count > currentWayPointIndex)
             {
                 Debug.Log("agentState => Idle");
@@ -106,15 +105,15 @@ public class ClickToMove : MonoBehaviour
             }
             yield return half;
         }
-        yield return null; 
+        yield return null;
     }
-    
+
     void TouchToRay(Vector3 touch)
     {
         Ray ray = mainCam.ScreenPointToRay(touch);
         RaycastHit hit;
-        
-        if (Physics.Raycast(ray ,out hit))
+
+        if (Physics.Raycast(ray, out hit))
         {
             wayPoints.Add(hit.point);
             isPlaced = true;

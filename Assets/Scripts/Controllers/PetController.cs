@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PetController : MonoBehaviour
 {
-    [SerializeField] private Animator petAnimation;
+    [SerializeField] private Animator petAnimation;    
     public float speedThreshold = 0.1f; // The speed threshold to change animation
 
     private Vector3 lastPosition;  // Store the last position

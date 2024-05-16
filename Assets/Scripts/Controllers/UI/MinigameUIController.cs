@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -7,13 +8,18 @@ using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 
 public class MinigameUIController : MonoBehaviour
-{
+{    
     public static MinigameUIController instance;
-    public GameObject minigamePrefab;
+    //public event Action MiniGameStarted;
+    //public event Action MiniGameEnded;
+
+    public GameObject minigame;
     public TMP_Text scoreText, timerText;
-    public MinigameEndPanelController minigameEndUI;
-    public MinigamePetController minigamePetController;
+    public MinigameEndPanelController minigameEndUI; 
     public bool victory;
+
+    [SerializeField] private Button _minigameButton;
+
     private int score;
     private float timeRemaining;
 
@@ -24,16 +30,31 @@ public class MinigameUIController : MonoBehaviour
             instance = this;
         }
         else Debug.LogWarning("More than one MinigameUIController in the Scene");
+
+        _minigameButton.onClick.AddListener(StartMinigame);
     }
-    private void OnEnable()
+
+    private void StartMinigame()
     {
-        GameObject minigame = Instantiate(minigamePrefab);
-        minigame.GetComponent<BaseMinigameController>().Initialize(minigamePetController.transform);
+        gameObject.SetActive(true);
+        //создать префаб миниигры
+        //GameObject prefab =default;
+        //var a = Instantiate(prefab, transform);//префаб минигейм
+
+        //MiniGameStarted?.Invoke();
     }
+
+    public virtual void ChangeScore(int amount)
+    {
+        score += amount;        
+        UpdateScore(score);
+    }
+
 
     public void UpdateScore(int score) 
     {
         this.score = score;
+        if (score >= 3) FinishMiniGame(score, timeRemaining);
         scoreText.text = "Score: " + score;
     }
 
@@ -45,13 +66,28 @@ public class MinigameUIController : MonoBehaviour
 
     public void FinishMiniGame(int score, float timeRemaining) 
     {
+        Destroy(minigame);
         minigameEndUI.gameObject.SetActive(true);       
         minigameEndUI.Intialize(score, timeRemaining, timeRemaining >0);
+        //MiniGameEnded?.Invoke();
+     // PetController.GetComponent<NeedsController>().ChangeHappiness(20); // needs reference to needscontroller assigned to 3d pet clone???3    
     }
 
     public void LoseMiniGame() 
     {
+        Destroy(minigame);
+        
+        minigame.SetActive(false);
+
+
+      //PetController.GetComponent<NeedsController>().ChangeHappiness(10);// needs reference to needscontroller assigned to 3d pet clone???3
         minigameEndUI.gameObject.SetActive(true);
         minigameEndUI.Intialize(score, timeRemaining, false);
+        //MiniGameEnded?.Invoke();
+    }
+
+    private void OnDestroy()
+    {
+        _minigameButton.onClick.RemoveListener(StartMinigame);
     }
 }

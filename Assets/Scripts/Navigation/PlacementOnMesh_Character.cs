@@ -4,23 +4,27 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class PlacementOnMesh_Character : MonoBehaviour
 {
+    public static event Action<NeedsController, PetController> CharacterPlaced;
+   
     [SerializeField] private Camera mainCam;
     [SerializeField] private GameObject placementObject;
+    [SerializeField] private MinigameUIController _minigameUIController;
 
     private List<GameObject> placedObjects = new();
 
     private bool isPlaced = false;
 
-    public static event Action characterPlaced; 
-    // Update is called once per frame
+    //public static event Action characterPlaced;
+   
     void Update()
     {
         if (isPlaced) return;
-        
-        
+
+
 #if UNITY_EDITOR
         if (Input.GetMouseButtonDown(0))
         {
@@ -64,17 +68,24 @@ public class PlacementOnMesh_Character : MonoBehaviour
         }
 #endif
     }
-    
-    void TouchToRay(Vector3 touch)
+
+
+    void TouchToRay(Vector3 touch) 
     {
         Ray ray = mainCam.ScreenPointToRay(touch);
         RaycastHit hit;
-        
-        if (Physics.Raycast(ray ,out hit))
-        {            
-            placedObjects.Add(Instantiate(placementObject, hit.point, Quaternion.FromToRotation(transform.up, hit.normal)));
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            var cat = Instantiate(placementObject, hit.point, Quaternion.FromToRotation(transform.up, hit.normal));
+            placedObjects.Add(cat);
+            var needsController = cat.GetComponent<NeedsController>();
+            //needsController.MinigameUIController = _minigameUIController;
+            var petController = cat.GetComponent<PetController>();
             isPlaced = true;
-            characterPlaced?.Invoke();
+            CharacterPlaced?.Invoke(needsController, petController);
         }
     }
 }
+
+

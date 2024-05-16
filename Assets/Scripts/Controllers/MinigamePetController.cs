@@ -1,59 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
+
+[RequireComponent(typeof(Rigidbody2D), typeof(BoxCollider2D))]
 
 public class MinigamePetController : MonoBehaviour
 {
-    public float speed, jumpSpeed;
-    private Rigidbody rb;
-    private bool grounded;
 
-    private void OnEnable()
-    {
-        GetComponent<NeedsController>().enabled = false; //Error
-    }
+    [SerializeField] private Camera _camera;
+    [SerializeField] private float _dampingSpeed;
+    [SerializeField] private Rigidbody2D _rb;
+    [SerializeField] private Joystick _joystick;
+    [SerializeField] private float _moveSpeed;
 
-    private void OnDisable()
+    private void FixedUpdate()
     {
-        GetComponent<NeedsController>().enabled = true; //Error
-    }
-
-    private void Update()
-    {
-        CheckHorizontalMovement();
-        if (Input.GetKeyDown(KeyCode.Space)) 
+        if (_joystick.Direction.y != 0)
         {
-            Jump();
+            _rb.velocity = new Vector2(_joystick.Horizontal * _moveSpeed, _joystick.Vertical * _moveSpeed);
         }
-    }
-
-    private void Jump() 
-    { 
-        rb.AddForce(new Vector2(0, jumpSpeed * Time.deltaTime));
-    }
-
-    private void CheckHorizontalMovement() 
-    {
-        if (Input.GetAxis("Horizontal") != 0) 
-        { 
-            rb.AddForce(new Vector2(speed * Time.deltaTime * Input.GetAxis("Horizontal"),0));
-        }
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision) 
-    {
-        if (collision.collider.CompareTag("Ground") && collision.transform.position.y + 1.5f < transform.position.y) 
-        { 
-            grounded = true;
-        }
-    }
-
-    private void OnCollisionExit(Collision collision)
-    {
-        if (collision.collider.CompareTag("Ground"))
+        else
         {
-            grounded = false;
+            _rb.velocity = Vector2.zero;
         }
-    }
-}   
 
+    }
+}
+
+
+
+
+    

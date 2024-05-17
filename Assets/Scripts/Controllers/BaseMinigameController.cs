@@ -1,6 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditorInternal;
+// Copyright 2022-2024 Niantic.
 using UnityEngine;
 
 public class BaseMinigameController : MonoBehaviour

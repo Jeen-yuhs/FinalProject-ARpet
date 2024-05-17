@@ -8145,7 +8145,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _lightshipNavMeshManager: {fileID: 976260453}
-  _material: {fileID: 2100000, guid: 2ec2927fdaef342e5ad2e3d104750ed2, type: 2}
+  _material: {fileID: 2100000, guid: b824ea5820bea4b01b06ed8c39a0f61b, type: 2}
 --- !u!114 &976260453
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10180,7 +10180,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameHourTimer: 0
-  hourLength: 2
+  hourLength: 10
 --- !u!114 &1258321065
 MonoBehaviour:
   m_ObjectHideFlags: 0

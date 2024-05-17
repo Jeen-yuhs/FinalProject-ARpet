@@ -9,9 +9,7 @@ using UnityEngine.UI;
 
 public class MinigameUIController : MonoBehaviour
 {    
-    public static MinigameUIController instance;
-    //public event Action MiniGameStarted;
-    //public event Action MiniGameEnded;
+    public static MinigameUIController instance;   
 
     public GameObject minigame;
     public TMP_Text scoreText, timerText;
@@ -37,11 +35,6 @@ public class MinigameUIController : MonoBehaviour
     private void StartMinigame()
     {
         gameObject.SetActive(true);
-        //создать префаб миниигры
-        //GameObject prefab =default;
-        //var a = Instantiate(prefab, transform);//префаб минигейм
-
-        //MiniGameStarted?.Invoke();
     }
 
     public virtual void ChangeScore(int amount)
@@ -68,22 +61,15 @@ public class MinigameUIController : MonoBehaviour
     {
         Destroy(minigame);
         minigameEndUI.gameObject.SetActive(true);       
-        minigameEndUI.Intialize(score, timeRemaining, timeRemaining >0);
-        //MiniGameEnded?.Invoke();
-     // PetController.GetComponent<NeedsController>().ChangeHappiness(20); // needs reference to needscontroller assigned to 3d pet clone???3    
+        minigameEndUI.Intialize(score, timeRemaining, timeRemaining >0);        
     }
 
     public void LoseMiniGame() 
     {
-        Destroy(minigame);
-        
-        minigame.SetActive(false);
-
-
-      //PetController.GetComponent<NeedsController>().ChangeHappiness(10);// needs reference to needscontroller assigned to 3d pet clone???3
+        Destroy(minigame);        
+        minigame.SetActive(false);      
         minigameEndUI.gameObject.SetActive(true);
-        minigameEndUI.Intialize(score, timeRemaining, false);
-        //MiniGameEnded?.Invoke();
+        minigameEndUI.Intialize(score, timeRemaining, false);        
     }
 
     private void OnDestroy()

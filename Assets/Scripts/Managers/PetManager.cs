@@ -74,9 +74,7 @@ public class PetManager : MonoBehaviour
     public void Die()
     {
         Debug.Log("Dead");
-        gameoverPanel.gameObject.SetActive(true); // gameover
-        Destroy(gameboardCharacter);
-        Destroy(xr);// game over                
+        gameoverPanel.gameObject.SetActive(true); 
     }
 
     private void RestartGame()
